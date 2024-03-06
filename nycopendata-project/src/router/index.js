@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-//import HomeView from '../views/HomeView.vue'
+import BarChart from '../views/BarChart.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      /*path: '/',
+      path: '/',
       name: 'home',
-      component: HomeView*/
+      component: BarChart
     },
     {
-      /*path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')*/
+      path: '/pie',
+      name: 'pie',
+      component: () => import('../views/PieChart.vue')
     }
   ]
 })

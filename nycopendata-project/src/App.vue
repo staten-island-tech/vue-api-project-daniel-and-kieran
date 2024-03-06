@@ -7,11 +7,10 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">Bar Chart</RouterLink>
+        <RouterLink to="/pie">Pie Chart</RouterLink>
       </nav>
     </div>
   </header>

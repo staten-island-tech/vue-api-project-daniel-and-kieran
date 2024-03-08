@@ -5,6 +5,10 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+const squirrels = ref('') {
+  let res = await fet
+}
 
 </script>
 

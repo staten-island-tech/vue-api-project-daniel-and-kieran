@@ -5,17 +5,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 const squirrels = ref('')
 async function getsquirrels() {
   let res = await fetch('https://data.cityofnewyork.us/resource/vfnx-vebw.json')
   let data = await res.json()
-  squirrels.value = data.results;
-  console.log(squirrels);
+  squirrels.value = data.results
+  console.log(squirrels)
 }
-onMounted(() => {
-  console.log(getsquirrels());
+onBeforeMount(() => {
+  try {
+    getsquirrels()
+    console.log(getsquirrels())
+  } catch (error) {
+    console.warn(error)
+  }
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

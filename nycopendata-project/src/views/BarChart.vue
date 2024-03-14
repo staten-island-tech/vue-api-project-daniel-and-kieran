@@ -10,7 +10,7 @@ const squirrels = ref('')
 async function getsquirrels() {
   let res = await fetch('https://data.cityofnewyork.us/resource/vfnx-vebw.json')
   let data = await res.json()
-  squirrels.value = data.results
+  squirrels.value = data
   console.log(squirrels)
 }
 onBeforeMount(() => {
@@ -21,6 +21,11 @@ onBeforeMount(() => {
     console.warn(error)
   }
 })
+for(let squirrel of squirrels) {
+  if(squirrel.moan = true) {
+    
+  }
+  }
 </script>
 
 <style scoped></style>

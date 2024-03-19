@@ -5,22 +5,25 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
-const squirrels = ref("");
-async function getSquirrels() {
-  let res = await fetch("https://data.cityofnewyork.us/resource/vfnx-vebw.json");
-  let data = await res.json();
-  squirrels.value = data.results;
-  console.log(squirrels.value);
+import { ref, onBeforeMount } from 'vue'
+const squirrels = ref('')
+async function getsquirrels() {
+  let res = await fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
+  let data = await res.json()
+  squirrels.value = data.results
 }
-
 onBeforeMount(() => {
-  getSquirrels();
-});
+  try {
+    getsquirrels()
+    console.log(getsquirrels())
+  } catch (error) {
+    console.warn(error)
+  }
+})
 
-
+for (let squirrel of squirrels.value) {
+ console.log(squirrel)
+}
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style scoped></style>

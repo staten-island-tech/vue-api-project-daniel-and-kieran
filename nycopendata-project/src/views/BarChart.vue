@@ -6,24 +6,25 @@
 
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-const squirrels = ref('')
+const trees = ref();
 async function getsquirrels() {
-  let res = await fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
-  let data = await res.json()
-  squirrels.value = data.results
+  try {
+    let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
+    let data = await res.json();
+    console.log(data)
+    trees.value = data.results;
+  } catch (e) {
+    console.error(e);
+  }
 }
 onBeforeMount(() => {
   try {
     getsquirrels()
-    console.log(getsquirrels())
   } catch (error) {
     console.warn(error)
   }
 })
 
-for (let squirrel of squirrels.value) {
- console.log(squirrel)
-}
 </script>
 
 <style scoped></style>

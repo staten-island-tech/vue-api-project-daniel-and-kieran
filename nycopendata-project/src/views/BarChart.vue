@@ -11,7 +11,6 @@ async function getsquirrels() {
   let res = await fetch('https://data.cityofnewyork.us/resource/erm2-nwe9.json')
   let data = await res.json()
   squirrels.value = data.results
-  console.log(squirrels)
 }
 onBeforeMount(() => {
   try {
@@ -22,10 +21,8 @@ onBeforeMount(() => {
   }
 })
 
-for (let squirrel of squirrels) {
-  if ((squirrel = true)) {
-    console.log(squirrel)
-  }
+for (let squirrel of squirrels.value) {
+ console.log(squirrel)
 }
 </script>
 

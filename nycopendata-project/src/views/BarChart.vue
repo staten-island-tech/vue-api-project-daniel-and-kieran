@@ -7,7 +7,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 const trees = ref();
-async function getsquirrels() {
+async function gettrees() {
   try {
     let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
     let data = await res.json();
@@ -19,7 +19,7 @@ async function getsquirrels() {
 }
 onBeforeMount(() => {
   try {
-    getsquirrels()
+    gettrees()
   } catch (error) {
     console.warn(error)
   }

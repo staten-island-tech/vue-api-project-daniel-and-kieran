@@ -24,7 +24,7 @@ onBeforeMount(() => {
     console.warn(error)
   }
 })
-
+//bar chart of different type of species
 </script>
 
 <style scoped></style>

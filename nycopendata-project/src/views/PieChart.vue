@@ -1,9 +1,31 @@
 <template>
   <div>
-    <h1>Pie Chart</h1>
+    <h1>This is a Pie Chart</h1>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onBeforeMount } from 'vue'
+const trees = ref();
+async function gettrees() {
+  try {
+    let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
+    let data = await res.json();
+    console.log(data)
+    trees.value = data.results;
+  } catch (e) {
+    console.error(e);
+  }
+}
+onBeforeMount(() => {
+  try {
+    gettrees()
+  } catch (error) {
+    console.warn(error)
+  }
+})
 
-<style lang="scss" scoped></style>
+</script>
+
+<style scoped></style>
+

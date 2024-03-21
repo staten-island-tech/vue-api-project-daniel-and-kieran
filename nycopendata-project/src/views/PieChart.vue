@@ -6,7 +6,11 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'vue-chartjs'
+import * as chartConfig from './chartConfig.js'
+
 const loaded = ref(false);
 const chartData = ref({});
 
@@ -31,10 +35,6 @@ onBeforeMount(() => {
     console.warn(error)
   }
 })
-
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Pie } from 'vue-chartjs'
-import * as chartConfig from './chartConfig.js'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 

@@ -1,11 +1,13 @@
 <template>
   <div>
     <h1>This is a Bar Chart</h1>
+    <PieChart/>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue';
+import PieChart from './PieChart.vue';
 const trees = ref();
 async function gettrees() {
   try {

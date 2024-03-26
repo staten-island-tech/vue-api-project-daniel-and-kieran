@@ -33,24 +33,28 @@ async function gettrees() {
   } catch (e) {
     console.error(e);
   }
-  const trees = [];
+  const trees = {};
   chartData.value.labels = [];
+  chartData.value.datasets = [{
+    backgroundColor: [],
+    data: []
+  }]
   for (let tree of data) {
     if (!chartData.value.labels.includes(tree.spc_common)) {
       chartData.value.labels.push(tree.spc_common);
+      chartData.value.datasets[0].backgroundColor.push("#ffffff", "#000000")
     }
-    trees.push(tree.spc_common);
+    if (!trees[tree.spc_common]) { //adds tree name to the trees object
+      trees[tree.spc_common] = 0;
+    };
   }
 
-  for (let bobs of chartData.value.labels) {
-    for (let tree in trees) {
-      if (tree == bobs) {
-        data++;
-      }
-    }
+  for (let tree of data) {
+    trees[tree.spc_common]++;
   }
 
-  console.log(chartData)
+  chartData.value.datasets[0].data = Object.values(trees);
+
   loaded.value=true;
 }
 

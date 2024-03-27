@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>This is a Bar Chart</h1>
+    <h1 class="hello">NYC Tree Census Data 2015</h1>
     <canvas id="chartCanvas"></canvas>
   </div>
 </template>
@@ -72,7 +72,11 @@ function renderChart() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.hello {
+  align-self: center;
+}
+</style>
 /*
 1. for each tree species, add a label - if label is already in label array, dont push it
 2. for each tree species, also increment a counter for the tree species by 1

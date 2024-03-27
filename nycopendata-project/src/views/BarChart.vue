@@ -1,125 +1,75 @@
+<template>
+  <div>
+    <h1>This is a Bar Chart</h1>
+    <canvas id="chartCanvas"></canvas>
+  </div>
+</template>
+
 <script setup>
-/* import { ref, onBeforeMount } from 'vue';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Pie } from 'vue-chartjs'
+import { Chart, registerables } from 'chart.js'
+import { ref, reactive, onMounted } from 'vue';
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+Chart.register(...registerables);
 
-const loaded = ref(false);
-const chartData = ref({
+const chartData = reactive({
   labels: [],
   datasets: [{
-    data: [],
-    backgroundColor: [
-      'red',
-      'blue',
-      'green',
-    ]
+    backgroundColor: [],
+    data: []
   }]
 });
 
-onBeforeMount(() => {
-  loaded.value = false;
-  try {
-    getTrees();
-  } catch (error) {
-    console.warn(error);
-  }
+const loaded = ref(false);
+
+onMounted(() => {
+  fetchData();
 });
 
-async function getTrees() {
-  let data;
+async function fetchData() {
   try {
-    let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
-    data = await res.json();
-    console.log(data);
-
-    const treeCounts = {};
-    for (let tree of data) {
-      if (!treeCounts[tree.spc_common]) {
-        treeCounts[tree.spc_common] = 1;
-      } else {
-        treeCounts[tree.spc_common]++;
-      }
-    }
-
-    for (let species in treeCounts) {
-      chartData.value.labels.push(species);
-      chartData.value.datasets[0].data.push(treeCounts[species]);
-    }
-
-    console.log(chartData);
-    loaded.value = true;
-  } catch (e) {
-    console.error(e);
+    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
+    const data = await res.json();
+    processChartData(data);
+  } catch (error) {
+    console.error(error);
   }
 }
 
-const options = {
-  responsive: true,
-};
+function processChartData(data) {
+  const trees = {};
+  chartData.labels = [];
+  chartData.datasets[0].backgroundColor = [];
+  chartData.datasets[0].data = [];
 
- */
+  for (const tree of data) {
+    if (!chartData.labels.includes(tree.spc_common)) {
+      chartData.labels.push(tree.spc_common);
+      chartData.datasets[0].backgroundColor.push("#000000");
+    }
+    if (!trees[tree.spc_common]) {
+      trees[tree.spc_common] = 0;
+    }
+    trees[tree.spc_common]++;
+  }
+
+  chartData.datasets[0].data = Object.values(trees);
+  loaded.value = true;
+
+  renderChart();
+}
+
+function renderChart() {
+  const canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: {
+      responsive: true,
+    }
+  });
+}
 </script>
 
 <style scoped></style>
-/*
-1. for each tree species, add a label - if label is already in label array, dont push it
-2. for each tree species, also increment a counter for the tree species by 1
-3. for each tree species, push the number to data array
-*/
-
-/*const chartData = {
-  labels: ["a", "b"],
-  datasets: [{
-    backgroundColor: ["#ffffff", "#000000"],
-    data: [1, 2]
-  }]
-}*/
-
-
-
-
-//Chart js bs
-//APPLY CHANGES WE FIXED IN PIE CHART TO HERE
-
-
-// import {
-//   Chart as ChartJS,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   BarElement,
-//   CategoryScale,
-//   LinearScale}
-// from 'chart.js'
-// import { Bar } from 'vue-chartjs'
-// import * as chartConfig from './chartConfig.js'
-
-// ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-
-// const data = gettrees()
-// const options= {responsive: true, maintainAspectRatio: false}
-
-
-
-// import { ref, onBeforeMount } from 'vue'
-// const trees = ref();
-// async function gettrees() {
-//   try {
-//     let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
-//     let data = await res.json();
-//     console.log(data)
-//     trees.value = data.results;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
-// onBeforeMount(() => {
-//   try {
-//     gettrees()
-//   } catch (error) {
-//     console.warn(error)
-//   }
-// })
-//bar chart of different type of species

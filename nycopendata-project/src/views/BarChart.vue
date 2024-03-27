@@ -1,64 +1,75 @@
+<template>
+  <div>
+    <h1>This is a Bar Chart</h1>
+    <canvas id="chartCanvas"></canvas>
+  </div>
+</template>
+
 <script setup>
-/*import { ref, onBeforeMount } from 'vue';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Pie } from 'vue-chartjs'
+import { Chart, registerables } from 'chart.js'
+import { ref, reactive, onMounted } from 'vue';
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+Chart.register(...registerables);
 
-const loaded = ref(false);
-const chartData = ref({
+const chartData = reactive({
   labels: [],
   datasets: [{
-    data: [],
-    backgroundColor: [
-      'red',
-      'blue',
-      'green',
-    ]
+    backgroundColor: [],
+    data: []
   }]
 });
 
-onBeforeMount(() => {
-  loaded.value = false;
-  try {
-    getTrees();
-  } catch (error) {
-    console.warn(error);
-  }
+const loaded = ref(false);
+
+onMounted(() => {
+  fetchData();
 });
 
-async function getTrees() {
-  let data;
+async function fetchData() {
   try {
-    let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
-    data = await res.json();
-    console.log(data);
-
-    const treeCounts = {};
-    for (let tree of data) {
-      if (!treeCounts[tree.spc_common]) {
-        treeCounts[tree.spc_common] = 1;
-      } else {
-        treeCounts[tree.spc_common]++;
-      }
-    }
-
-    for (let species in treeCounts) {
-      chartData.value.labels.push(species);
-      chartData.value.datasets[0].data.push(treeCounts[species]);
-    }
-
-    console.log(chartData);
-    loaded.value = true;
-  } catch (e) {
-    console.error(e);
+    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
+    const data = await res.json();
+    processChartData(data);
+  } catch (error) {
+    console.error(error);
   }
 }
 
-const options = {
-  responsive: true,
-};*/
- 
+function processChartData(data) {
+  const trees = {};
+  chartData.labels = [];
+  chartData.datasets[0].backgroundColor = [];
+  chartData.datasets[0].data = [];
+
+  for (const tree of data) {
+    if (!chartData.labels.includes(tree.spc_common)) {
+      chartData.labels.push(tree.spc_common);
+      chartData.datasets[0].backgroundColor.push("#000000");
+    }
+    if (!trees[tree.spc_common]) {
+      trees[tree.spc_common] = 0;
+    }
+    trees[tree.spc_common]++;
+  }
+
+  chartData.datasets[0].data = Object.values(trees);
+  loaded.value = true;
+
+  renderChart();
+}
+
+function renderChart() {
+  const canvas = document.getElementById('chartCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: {
+      responsive: true,
+    }
+  });
+}
 </script>
 
 <style scoped></style>

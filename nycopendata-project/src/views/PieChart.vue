@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>This is a Pie Chart</h1>
-    <Pie :data="chartData" :options="options" v-if="loaded"/>
+    <h1>This is a Pie Chart of the Data</h1>
+    <div id="urmom">
+      <Pie :data="chartData" :options="options" v-if="loaded"/>
+    </div>
   </div>
 </template>
 
@@ -106,5 +108,13 @@ const options = {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+#urmom {
+  width:100vw;
+  height:100vh;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+}
+</style>
 

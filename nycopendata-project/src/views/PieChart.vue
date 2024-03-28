@@ -104,6 +104,11 @@ async function gettrees() {
 
 const options = {
   responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    }
+  }
 }
 
 </script>

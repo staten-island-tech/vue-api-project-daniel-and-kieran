@@ -75,6 +75,9 @@ function renderChart() {
 <style scoped>
 .hello {
   align-self: center;
+  align-self: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
 /*

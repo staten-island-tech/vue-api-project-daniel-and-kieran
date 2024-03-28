@@ -44,7 +44,7 @@ function processChartData(data) {
   for (const tree of data) {
     if (!chartData.labels.includes(tree.spc_common)) {
       chartData.labels.push(tree.spc_common);
-      chartData.datasets[0].backgroundColor.push("#000000");
+      chartData.datasets[0].backgroundColor.push("#FFA500");
     }
     if (!trees[tree.spc_common]) {
       trees[tree.spc_common] = 0;

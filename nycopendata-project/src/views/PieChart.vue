@@ -120,6 +120,9 @@ const options = {
   align-self: center;
   display: flex;
   justify-content: center;
+  background-color: rgba(33, 82, 0, 0.678);
+  margin-left: 10%;
+  margin-right: 10%;
 }
 </style>
 

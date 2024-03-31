@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>This is a Pie Chart of the Data</h1>
     <div id="urmom">
+      <h1>This is a Pie Chart of the Data</h1>
       <Pie :data="chartData" :options="options" v-if="loaded"/>
     </div>
   </div>
@@ -115,14 +115,17 @@ const options = {
 
 <style scoped>
 #urmom {
-  width:100vw;
+  width:75vw;
   height:100vh;
   align-self: center;
   display: flex;
   justify-content: center;
-  /* background-color: rgba(33, 82, 0, 0.678); */
-  margin-left: 10%;
+  background-color: rgba(33, 82, 0, 0.678); 
+  margin-left: 12.5%;
   margin-right: 10%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  border-radius: 50px;
 }
 </style>
 

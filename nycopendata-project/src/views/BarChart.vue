@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="hello">This is the Bar Chart of the Data</h1>
-    <canvas id="chartCanvas"></canvas>
+    <canvas id="chartCanvas" class="bye"></canvas>
   </div>
 </template>
 
@@ -78,5 +78,11 @@ function renderChart() {
   align-self: center;
   display: flex;
   justify-content: center;
+}
+
+.bye {
+  background-color:rgba(68, 221, 41, 0.754);
+  width: 80em;
+  height: 80em;
 }
 </style>

@@ -130,8 +130,5 @@ const options = {
   border-radius: 50px;
 }
 
-#wow {
-  --color-text: rgb(0, 204, 255);
-}
 </style>
 

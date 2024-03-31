@@ -32,8 +32,8 @@ async function getTrees() {
     <header>
       <div class="wrapper">
         <nav>
-          <RouterLink to="/raw-data">Raw Data</RouterLink>
-          <RouterLink to="/">Bar Chart</RouterLink>
+          <RouterLink to="/">Raw Data</RouterLink>
+          <RouterLink to="/bar">Bar Chart</RouterLink>
           <RouterLink to="/pie">Pie Chart</RouterLink>
         </nav>
       </div>

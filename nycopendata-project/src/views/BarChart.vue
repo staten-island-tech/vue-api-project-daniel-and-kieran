@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="hello">NYC Tree Census Data 2015</h1>
+    <h1 class="hello">This is the Bar Chart of the Data</h1>
     <canvas id="chartCanvas"></canvas>
   </div>
 </template>

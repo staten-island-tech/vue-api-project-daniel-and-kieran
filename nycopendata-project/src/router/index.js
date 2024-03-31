@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/pie',
       name: 'pie',
       component: () => import('../views/PieChart.vue')
+    },
+    {
+      path: '/raw-data',
+      name: 'rawdata',
+      component: () => import('../views/RawData.vue')
     }
   ]
 })

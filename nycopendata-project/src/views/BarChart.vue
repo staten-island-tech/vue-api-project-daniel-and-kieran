@@ -75,14 +75,15 @@ function renderChart() {
 <style scoped>
 .hello {
   align-self: center;
-  align-self: center;
   display: flex;
   justify-content: center;
+  background-color: rgba(0, 128, 0, 0.892);
+  margin-left: 20%;
+  margin-right:20%;
+  border-radius:15px;
 }
 
 .bye {
   background-color:rgba(68, 221, 41, 0.754);
-  width: 80em;
-  height: 80em;
 }
 </style>

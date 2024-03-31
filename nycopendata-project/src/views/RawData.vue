@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div id="woah">
         <div v-if="loaded">
             <h1>NYC Tree Census Data 2015</h1>
+            <h2>Raw Data:</h2>
             <ul>
             <li v-for="(tree, index) in rawData" :key="index">
             {{ tree.spc_common }} - {{ tree.tree_id }} - {{ tree.boroname }}
@@ -39,6 +40,17 @@ async function getTrees() {
 }
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+#woah {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  flex-direction: row;
+  background-color: rgba(33, 82, 0, 0.678); 
+  margin-left: 10vw;
+  margin-right: 10vw;
+  margin-top: 2.5%;
+  padding-top: 2.5%;
+  border-radius:45px;
+}
 </style>

@@ -7,68 +7,70 @@
 
 <script setup>
 import { Chart, registerables } from 'chart.js'
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue'
 
-Chart.register(...registerables);
+Chart.register(...registerables)
 
 const chartData = reactive({
   labels: [],
-  datasets: [{
-    backgroundColor: [],
-    data: []
-  }]
-});
+  datasets: [
+    {
+      backgroundColor: [],
+      data: []
+    }
+  ]
+})
 
-const loaded = ref(false);
+const loaded = ref(false)
 
 onMounted(() => {
-  fetchData();
-});
+  fetchData()
+})
 
 async function fetchData() {
   try {
-    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
-    const data = await res.json();
-    processChartData(data);
+    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json')
+    const data = await res.json()
+    processChartData(data)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
 function processChartData(data) {
-  const trees = {};
-  chartData.labels = [];
-  chartData.datasets[0].backgroundColor = [];
-  chartData.datasets[0].data = [];
+  const trees = {}
+  chartData.labels = []
+  chartData.datasets[0].backgroundColor = []
+  chartData.datasets[0].data = []
 
   for (const tree of data) {
     if (!chartData.labels.includes(tree.spc_common)) {
-      chartData.labels.push(tree.spc_common);
-      chartData.datasets[0].backgroundColor.push("#FFA500");
+      chartData.labels.push(tree.spc_common)
+      chartData.datasets[0].backgroundColor.push('#FFA500')
     }
     if (!trees[tree.spc_common]) {
-      trees[tree.spc_common] = 0;
+      trees[tree.spc_common] = 0
     }
-    trees[tree.spc_common]++;
+    trees[tree.spc_common]++
   }
 
-  chartData.datasets[0].data = Object.values(trees);
-  loaded.value = true;
+  chartData.datasets[0].data = Object.values(trees)
+  loaded.value = true
 
-  renderChart();
+  renderChart()
 }
 
 function renderChart() {
-  const canvas = document.getElementById('chartCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  const canvas = document.getElementById('chartCanvas')
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
   new Chart(ctx, {
     type: 'bar',
     data: chartData,
     options: {
-      responsive: true,
+      responsive: true
     }
-  });
+  })
 }
 </script>
 
@@ -79,11 +81,11 @@ function renderChart() {
   justify-content: center;
   background-color: rgba(0, 128, 0, 0.892);
   margin-left: 20%;
-  margin-right:20%;
-  border-radius:15px;
+  margin-right: 20%;
+  border-radius: 15px;
 }
 
 .bye {
-  background-color:rgba(68, 221, 41, 0.754);
+  background-color: rgba(68, 221, 41, 0.754);
 }
 </style>

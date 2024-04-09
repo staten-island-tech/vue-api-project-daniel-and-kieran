@@ -1,28 +1,28 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount } from 'vue'
 
-const loaded = ref(false);
-const rawData = ref([]);
+const loaded = ref(false)
+const rawData = ref([])
 
 onBeforeMount(() => {
-  loaded.value = false;
+  loaded.value = false
   try {
-    getTrees();
+    getTrees()
   } catch (error) {
-    console.warn(error);
+    console.warn(error)
   }
-});
+})
 
 async function getTrees() {
   try {
-    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
-    rawData.value = await res.json();
-    console.log(rawData.value);
-    loaded.value = true;
+    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json')
+    rawData.value = await res.json()
+    console.log(rawData.value)
+    loaded.value = true
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 </script>
@@ -41,7 +41,7 @@ async function getTrees() {
 
     <RouterView />
 
-<!--     <div v-if="loaded">
+    <!--     <div v-if="loaded">
       <h1>This is the Raw Data</h1>
       <ul>
         <li v-for="(tree, index) in rawData" :key="index">

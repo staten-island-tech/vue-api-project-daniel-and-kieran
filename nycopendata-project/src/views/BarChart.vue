@@ -1,94 +1,96 @@
 <template>
   <div>
-    <h1 class="hello">This is the Bar Chart of the Data</h1>
-    <canvas id="chartCanvas" class="bye"></canvas>
+    <div id="urmom">
+      <h1 id="wow">This is a Bar Chart of the Data</h1>
+      <bar :data="chartData" :options="options" v-if="loaded" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { Chart, registerables } from 'chart.js'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
+import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale } from 'chart.js'
+import { Bar } from 'vue-chartjs'
 
-Chart.register(...registerables)
+ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale)
 
-const chartData = reactive({
-  labels: [],
-  datasets: [
+const loaded = ref(false)
+const chartData = ref({})
+
+onBeforeMount(() => {
+  loaded.value = false
+  try {
+    getTrees()
+  } catch (error) {
+    console.warn(error)
+  }
+})
+
+async function getTrees() {
+  let data
+  try {
+    let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json')
+    data = await res.json()
+    console.log(data)
+  } catch (e) {
+    console.error(e)
+  }
+  const trees = {}
+  chartData.value.labels = []
+  chartData.value.datasets = [
     {
+      label: 'Number of Trees',
       backgroundColor: [],
       data: []
     }
   ]
-})
-
-const loaded = ref(false)
-
-onMounted(() => {
-  fetchData()
-})
-
-async function fetchData() {
-  try {
-    const res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json')
-    const data = await res.json()
-    processChartData(data)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-function processChartData(data) {
-  const trees = {}
-  chartData.labels = []
-  chartData.datasets[0].backgroundColor = []
-  chartData.datasets[0].data = []
-
-  for (const tree of data) {
-    if (!chartData.labels.includes(tree.spc_common)) {
-      chartData.labels.push(tree.spc_common)
-      chartData.datasets[0].backgroundColor.push('#FFA500')
+  for (let tree of data) {
+    if (!chartData.value.labels.includes(tree.spc_common)) {
+      chartData.value.labels.push(tree.spc_common)
+      chartData.value.datasets[0].backgroundColor.push('#ffffff', '#000000')
+      chartData.value.datasets[0].data.push(0)
     }
     if (!trees[tree.spc_common]) {
       trees[tree.spc_common] = 0
     }
+  }
+
+  for (let tree of data) {
     trees[tree.spc_common]++
   }
 
-  chartData.datasets[0].data = Object.values(trees)
-  loaded.value = true
+  chartData.value.datasets[0].data = Object.values(trees)
 
-  renderChart()
+  loaded.value = true
 }
 
-function renderChart() {
-  const canvas = document.getElementById('chartCanvas')
-  if (!canvas) return
-  const ctx = canvas.getContext('2d')
-  new Chart(ctx, {
-    type: 'bar',
-    data: chartData,
-    options: {
-      responsive: true
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
     }
-  })
+  }
 }
 </script>
 
 <style scoped>
-.hello {
-  align-self: center;
+#urmom {
+  width: 75vw;
+  height: 100vh;
   display: flex;
-  justify-content: center;
-  background-color: rgba(0, 128, 0, 0.892);
-  margin-left: 20%;
-  margin-right: 20%;
-  border-radius: 15px;
-}
-
-.bye {
-  background-color: rgba(68, 221, 41, 0.754);
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(33, 82, 0, 0.678);
+  margin-left: 12.5%;
+  margin-right: 10%;
+  padding-top: 10%;
+  padding-bottom: 5%;
+  border-radius: 50px;
 }
 </style>
 
 
-<!-- test -->
+

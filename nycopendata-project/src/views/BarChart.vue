@@ -72,7 +72,7 @@ function renderChart() {
 }
 </script> -->
 
-<template>
+<!-- <template>
   <Bar
     id="my-chart-id"
     :options="chartOptions"
@@ -131,6 +131,81 @@ async function gettrees() {
 
   loaded.value=true;
 }
-</script>
+</script> -->
 
+<template>
+  <bar :options="chartOptions" :data="chartData" />
+</template>
+
+<script>
+import { ref, onBeforeMount } from 'vue';
+import { Bar, Chart as ChartJS } from 'vue-chartjs';
+import { Title, Tooltip, Legend } from 'chart.js';
+
+export default {
+  extends: Bar,
+  setup() {
+    const loaded = ref(false);
+    const chartData = ref({
+      labels: [],
+      datasets: [{
+        backgroundColor: [],
+        data: []
+      }]
+    });
+
+    const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false
+    };
+
+    onBeforeMount(() => {
+      loaded.value = false;
+      try {
+        getTrees();
+      } catch (error) {
+        console.warn(error);
+      }
+    });
+
+    async function getTrees() {
+      let data;
+      try {
+        let res = await fetch('https://data.cityofnewyork.us/resource/uvpi-gqnh.json');
+        data = await res.json();
+        console.log(data);
+      } catch (e) {
+        console.error(e);
+      }
+      const trees = {};
+      chartData.value.labels = [];
+      chartData.value.datasets[0].backgroundColor = [];
+      chartData.value.datasets[0].data = [];
+      for (let tree of data) {
+        if (!chartData.value.labels.includes(tree.spc_common)) {
+          chartData.value.labels.push(tree.spc_common);
+          chartData.value.datasets[0].backgroundColor.push("#ffffff", "#000000");
+        }
+        if (!trees[tree.spc_common]) {
+          trees[tree.spc_common] = 0;
+        }
+      }
+
+      for (let tree of data) {
+        trees[tree.spc_common]++;
+      }
+
+      chartData.value.datasets[0].data = Object.values(trees);
+
+      loaded.value = true;
+    }
+
+    return {
+      loaded,
+      chartData,
+      chartOptions
+    };
+  }
+};
+</script>
 <style scoped></style>
